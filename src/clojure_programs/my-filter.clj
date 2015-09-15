@@ -20,8 +20,5 @@
 (defn my-filter [f coll]
   (if (first coll)
     (cons (when (= true (f (first coll))) (first coll))
-          (my-filter1 f (rest ())))
+          (my-filter1 f (rest coll)))
     (list)))
-
-(defn fil [f coll]
-  (reduce (fn [results x] (if (f x) (conj results x) results)) coll))
