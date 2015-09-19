@@ -31,7 +31,7 @@
           list-of-strings))
 
 ;;output===
-;;user>(grep "cin" "cout << \"Enter two numbers....";\n cin >> number1;\n cin >> number2;")
+;;user>(grep "cin" "cout << \"Enter two numbers....\";\n cin >> number1;\n cin >> number2;")
 ;; [2 3]
 
 ;;user>(grep "hi!" "hello, who are you")
