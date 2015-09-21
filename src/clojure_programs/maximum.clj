@@ -11,10 +11,21 @@
 ;; using tail recursion
 
 (defn maximum1 [coll]
-  (loop [c coll
-         acc 0]
-    (if (= nil (first c))
-      acc
-      (recur (rest c) (if (< acc (first c))
-                        (first c)
-                        acc)))))
+  (if (empty? coll)
+    nil
+    (loop [c coll
+           acc 0]
+      (if (empty? c)
+        acc
+        (recur (rest c) (if (< acc (first c))
+                          (first c)
+                          acc))))))
+
+;;clojure-programs.core> (maximum1 [66 75 96 101 254 784 12410 21 3220])
+;;12410
+;;clojure-programs.core> (maximum1 [0 0 0 0 0 0 0])
+;;0
+;;clojure-programs.core> (maximum1 [0 -4  -5  -6 1  0 0])
+;;1
+;;clojure-programs.core> (maximum1 [])
+;;nil
