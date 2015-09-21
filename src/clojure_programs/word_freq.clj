@@ -15,3 +15,5 @@
                                 []
                                 list-string))))))
 
+;;clojure-programs.core> (word-freq "i am so happy to see you my friend.")
+;;{1 1, 2 4, 3 2, 5 1, 7 1}
