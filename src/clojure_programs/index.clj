@@ -5,11 +5,19 @@
 ;; using tail recursion
 
 (defn index [coll ele]
-  (if (= nil (first coll))
-    (- 1)
-    (loop [c coll
-           e ele
-           acc 0]
-      (if (= e (first c))
+  "function for returning the index of the given element in a list."
+  (loop [c coll
+         acc 0]
+    (if (empty? c)
+      -1
+      (if (= ele (first c))
         acc
-        (recur (rest c) e (inc acc))))))
+        (recur (rest c) (inc acc))))))
+
+
+;;clojure-programs.core> (index [1 2 3 4 5 6] 5)
+;;4
+;;clojure-programs.core> (index [1 2 3 4 5 6] 9)
+;;-1
+;;clojure-programs.core> (index [] 9)
+;;-1
