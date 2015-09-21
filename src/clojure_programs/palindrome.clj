@@ -6,3 +6,8 @@
 (defn is-palindrome [word]
   "This function returns a true if the given string is palindrome or false if not"
   (= word (apply str (reverse word))))
+
+;;clojure-programs.core> (is-palindrome "malayalam")
+;;true
+;;clojure-programs.core> (is-palindrome "srinivas")
+;;false
