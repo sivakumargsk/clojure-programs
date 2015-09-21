@@ -14,7 +14,6 @@
 
 ;; function for finding a factorial of the given number
 ;; using reduce method
-
 (defn factorial1 [n]
   (reduce * (range 1 (inc n))))
 
@@ -23,5 +22,10 @@
 ;; using recursion method-sig
 (defn factorial2 [n]
   (if (= n 0)
-    (*)
+    1
     (* n (factorial2 (dec n)))))
+
+;;clojure-programs.core> (factorial2 6)
+;;720
+;;clojure-programs.core> (factorial2 0)
+;;1
