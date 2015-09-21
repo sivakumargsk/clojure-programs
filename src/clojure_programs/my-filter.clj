@@ -4,17 +4,21 @@
 ;; creating my own filter
 ;; the functionality of the filter is to show the result collection when the given function shows true
 
-(defn my-filter1 [function collection]
-  (loop [fun function
-         coll collection
+(defn my-filter1 [fun collection]
+  (loop [coll collection
          newcol ()]
-    (if (= coll ())
+    (if (empty? coll)
       newcol
-      (recur fun (rest coll) (if (= true (fun (first coll)))
-                               (conj (vec newcol) (first coll))
-                               newcol )))))
+      (recur (rest coll) (if (= true (fun (first coll)))
+                           (conj (vec newcol) (first coll))
+                           newcol )))))
 
-
+;;clojure-programs.core> (my-filter1 pos? [1 -2 3 4 -5 6 ])
+;;[1 3 4 6]
+;;clojure-programs.core> (my-filter1 neg? [1 -2 3 4 -5 6 ])
+;;[-2 -5]
+;;clojure-programs.core> (my-filter1 pos? [])
+;;()
 
 ;; Using reduce function we can create a filter function
 (defn my-filter2 [function collection]
@@ -26,9 +30,14 @@
           []
           collection))
 
+;;clojure-programs.core> (my-filter2 pos? [1 -2 3 4 -5 6 ])
+;;[1 3 4 6]
+;;clojure-programs.core> (my-filter2 neg? [1 -2 3 4 -5 6 ])
+;;[-2 -5]
+;;clojure-programs.core> (my-filter2 pos? [])
+;;[]
 
-
-
+;;=============================================================
 ;;using bad recursion method
 ;;infact this function is bad also but i am trying to implement
 ;; soory its not working
