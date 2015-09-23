@@ -7,7 +7,7 @@
 (defn is-prime? [num]
   "this function returns true if the given number is prime or false "
   (empty? (if (< num 2)
-            [0 1]
+            ["i am not a prime number"]
             (filter (fn [x]
                       (if (and (= 0 (mod num x)) (> num 1)) true false))
                     (range 2 num)))))
@@ -26,7 +26,7 @@
 (defn is-prime?? [n]
   "This function also returns true if the given number is prime or not"
   (empty?  (if (< n 2)
-             ["i am not a prime numbers"]
+             ["i am not a prime number"]
              (reduce (fn [result element]
                        (if (= 0 (mod n element))
                          (conj result element)
