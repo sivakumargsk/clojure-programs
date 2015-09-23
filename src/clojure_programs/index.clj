@@ -4,6 +4,8 @@
 ;;function for returning the index of the given element in a list
 ;; using tail recursion
 
+
+
 (defn index [coll ele]
   "function for returning the index of the given element in a list."
   (loop [c coll
