@@ -5,7 +5,8 @@
 ;; i.e the all positive divisor sum is equal to that number
 ;; eg: 6 = 3 + 2 + 1 where 3 2 1 are their divisors
 
-;;for this program i create a function divisors which stores list of all ;;possible excluding the given number
+;;for this program i create a function divisors which stores list of all
+;;possible excluding the given number
 ;;divisors for the given element.....
 
 (defn divisors [n]
