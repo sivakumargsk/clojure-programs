@@ -1,7 +1,7 @@
 (ns clojure-programs.core
   (:gen-class))
 
-;;This program logic is based on this blog link http://www.timeanddate.com/date/doomsday-weekday.html
+;;This program logic is based on finding the doomsday of a year which shows last day of february for any given year.
 
 ;;i create a days variable using def because i use this in every function
 (def days {"Sunday" 0
