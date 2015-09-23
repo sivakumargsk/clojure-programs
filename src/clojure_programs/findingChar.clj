@@ -6,7 +6,7 @@
   "This function returns the number of times the charecter is repeated in the given string."
   (loop [word w
          sum 0]
-    (if (= word "")
+    (if (empty? word)
       sum
       (recur  (apply str (rest word))(if (= ch (first word))
                                        (inc sum)
