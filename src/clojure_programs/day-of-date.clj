@@ -1,7 +1,7 @@
 (ns clojure-programs.core
   (:gen-class))
 
-;;This program logic is based on finding the doomsday of a year which shows last day of february for any given year.
+;;This program logic is based on finding the doomsday of a year. It means the doomsday shows last day of february for any given year.
 
 ;;i create a days variable using def because i use this in every function
 (def days {"Sunday" 0
@@ -21,7 +21,7 @@
 
 ;;function for returning the century-anchor-day of a given year
 (defn anchor-century-day [year]
-  (days (anchor-day (mod (int (/ year 100)) 4))))
+  (days (anchor-day (mod (quot year 100) 4))))
 
 ;;clojure-programs.core> (century-day 1899)
 ;;5 <-- 18th century anchor day friday
@@ -132,3 +132,8 @@
 ;;here i dont give leap year so again 1st and 2nd values are changed
 ;;clojure-programs.core> (months-doomsday 2015)
 ;;{7 11, 1 3, 4 4, 6 6, 3 0, 12 12, 2 28, 11 7, 9 5, 5 9, 10 10, 8 8}
+
+
+;;============================================================================================
+;;Trying to write a single function
+;;============================================================================================
