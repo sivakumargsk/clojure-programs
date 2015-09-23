@@ -1,9 +1,6 @@
 (ns clojure-programs.core
   (:gen-class))
 
-(ns clojure-programs.core
-  (:gen-class))
-
 ;;This program logic is based on this blog link http://www.timeanddate.com/date/doomsday-weekday.html
 
 ;;i create a days variable using def because i use this in every function
@@ -42,7 +39,7 @@
   (let [val1 (quot (mod year 100) 12 )
         val2 (- (mod year 100) (* 12 val1))
         val3 (quot val2 4)
-        val4 (century-day year)]
+        val4 (anchor-century-day year)]
     (mod (+ val1 val2 val3 val4) 7)))
 
 ;;clojure-programs.core>(doomsday 1899)
@@ -101,7 +98,7 @@
   (let [val1 (quot (mod year 100) 12 )
         val2 (- (mod year 100) (* 12 val1))
         val3 (quot val2 4)
-        val4 (century-day year)
+        val4 (anchor-century-day year)
         map-keys-list (keys days)]
     (nth map-keys-list (mod (+ val1 val2 val3 val4) 7))))
 
@@ -127,3 +124,11 @@
    10 10
    11 7
    12 12})
+
+;;here i giving the leap year so 1st and 2nd values are changed
+;;clojure-programs.core> (months-doomsday 1992)
+;;{7 11, 1 4, 4 4, 6 6, 3 0, 12 12, 2 29, 11 7, 9 5, 5 9, 10 10, 8 8}
+
+;;here i dont give leap year so again 1st and 2nd values are changed
+;;clojure-programs.core> (months-doomsday 2015)
+;;{7 11, 1 3, 4 4, 6 6, 3 0, 12 12, 2 28, 11 7, 9 5, 5 9, 10 10, 8 8}
