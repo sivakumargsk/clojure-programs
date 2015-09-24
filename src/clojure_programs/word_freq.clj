@@ -1,13 +1,12 @@
 (ns clojure-programs.core
-  (:gen-class)
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as cstr]))
 
 
 ;;function for finding the word frequencies of a given string
 ;;using freqencies, sort and reduce functions
 
 (defn word-freq [string]
-  (let [list-string (clojure.string/split string #" ")]
+  (let [list-string (cstr/split string #" ")]
     (if (empty? list-string)
       nil
       (frequencies(sort (reduce (fn [x y]
