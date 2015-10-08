@@ -1,7 +1,7 @@
 (ns clojure-programs.core)
 
 (defn is-prime? [num]
-  (if (< num 1)
+  (if (< num 2)
     false
     (empty? (filter (fn [x]
                       (if (= 0 (mod num x)) true false )) (range 2 num)))))
