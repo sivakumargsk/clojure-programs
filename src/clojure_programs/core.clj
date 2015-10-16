@@ -16,8 +16,8 @@
   (if (= n 0) 1
       (* n (factorial2 (dec n)))))
 
+
 ;;===============================================================================================
-;;This function returns the number of times the charecter is repeated in the given string.
 (defn find-rept-char-str [ch w]
   "This function returns the number of times the charecter is repeated in the given string."
   (loop [word (vec w)
@@ -27,6 +27,7 @@
       (recur  (rest word) (if (= ch (first word))
                             (inc sum)
                             sum )))))
+
 
 ;;===============================================================================================
 (defn grep [word multiline-string]
@@ -40,9 +41,96 @@
             list-of-strings)))
 
 
-;;======================================================================================================
-;;This program logic is based on finding the doomsday of a year. It means the doomsday shows last day of february for any given year.
-;;i create a days variable using def because i use this in every function
+;;==============================================================================================
+(defn index [coll ele]
+  "function for returning the index of the given element in a list."
+  (loop [c coll
+         acc 0]
+    (if (empty? c) -1
+        (if (= ele (first c)) acc
+            (recur (rest c) (inc acc))))))
+
+
+;;==============================================================================================
+(defn is-perfect [n]
+  (= n (reduce (fn [result element]
+                 (if (= 0 (mod n element))
+                   (+ result element)
+                   result))
+               0
+               (range 1 (inc (/ n 2))))))
+
+
+;;==============================================================================================
+(defn max-two [x y]
+  (if (> x y) x y))
+
+
+(defn max1 [coll default]
+  (if (empty? coll)
+    default
+    (reduce max-two coll)))
+
+(defn max2 [coll default]
+  (if (empty? coll)
+    default
+    (loop [c coll
+           acc 0]
+      (if (empty? c) acc
+          (recur (rest c) (max-two acc (first c)))))))
+
+
+;;================================================================================================
+(defn my-filter1 [fun collection]
+  (loop [coll collection
+         newcol []]
+    (if (empty? coll)
+      newcol
+      (recur (rest coll) (if (= true (fun (first coll)))
+                           (conj newcol (first coll))
+                           newcol )))))
+
+(defn my-filter2 [function collection]
+  (reduce (fn [result element]
+            (if (function element)
+              (conj result element)
+              result
+              ))
+          []
+          collection))
+
+
+;;================================================================================================
+(defn is-palindrome?[word]
+  "This function returns a true if the given string is palindrome or false if not"
+  (= word (cstr/reverse word)))
+
+
+;;================================================================================================
+(defn is-prime? [num]
+  (if (< num 2)
+    false
+    (empty? (filter (fn [x]
+                      (if (= 0 (mod num x)) true false )) (range 2 num)))))
+
+
+(defn prime-seq [n]
+  "This function returns the given size of prime numbers"
+  (take n (filter is-prime? (iterate inc 0))))
+
+
+;;================================================================================================
+(defn word-freq [string]
+  (let [list-string (cstr/split string #" ")]
+    (if (empty? list-string)
+      nil
+      (frequencies (sort (reduce (fn [x y]
+                                   (conj x (count y)))
+                                 []
+                                 list-string))))))
+
+
+;;================================================================================================
 (def days {"Sunday" 0
            "Monday" 1
            "Tuesday" 2
@@ -50,7 +138,6 @@
            "Friday" 5
            "Saturday" 6 })
 
-;;i create a anchor-day variable using def because i use this in every function
 (def anchor-day {0 "Tuesday"
                  1 "Sunday"
                  2 "Friday"
@@ -60,9 +147,9 @@
 ;;function for returning the century-anchor-day of a given year
 (defn anchor-century-day [year]
   (days (anchor-day (mod (quot year 100) 4))))
-
 ;;clojure-programs.core> (century-day 1899)
 ;;5 <-- 18th century anchor day friday
+
 
 ;;This function returns the last day of February month of a given year.
 (defn doomsday [year]
@@ -71,9 +158,9 @@
         val3 (quot val2 4)
         val4 (anchor-century-day year)]
     (mod (+ val1 val2 val3 val4) 7)))
-
 ;;clojure-programs.core>(doomsday 1899)
 ;;2 --> means Tuesday
+
 
 ;;function for finding the given function is leap year or not
 (defn leap? [year]
@@ -82,6 +169,7 @@
     false))
 ;;clojure-programs.core> (leap? 1899)
 ;;false
+
 
 ;;Now function for returning the day of the given date
 (defn day-givenDate [day month year]
@@ -100,6 +188,5 @@
         difference (- (mod day 7) (mod (get ach-mon month) 7))
         map-keys-list (keys days)]
     (nth map-keys-list (mod (+ (doomsday year) difference) 7))))
-
 ;;clojure-programs.core> (day-givenDate 7 7 1992)
 ;;"Tuesday"
