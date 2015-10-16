@@ -76,7 +76,7 @@
        (fact "returns a map of str-count as key and no.of.strings having count of key-val as values"
              (word-freq "ramu raju and siva plays football" ) => {3 1, 4 3, 5 1, 8 1}
              (word-freq "i am so happy to see you my friend.") => {1 1, 2 4, 3 2, 5 1, 7 1}
-             (word-freq "") => {}))
+             (word-freq "") => {0 1}))
 
 (facts "about `day-givenData`"
        (fact "it normally returns the day of a given Date"
