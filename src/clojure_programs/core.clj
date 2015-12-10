@@ -225,7 +225,7 @@
     false
     (if (pred (first coll))
       true
-      (myevery? pred (rest coll)))))
+      (myany? pred (rest coll)))))
 
 (defn mypartition [n coll]
   (list
