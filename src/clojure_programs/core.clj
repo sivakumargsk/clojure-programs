@@ -196,3 +196,41 @@
 
 ;;clojure-programs.core> (day-givenDate 7 7 1992)
 ;;"Tuesday"
+
+;;=================================================================================
+;; map function using recurssion
+
+(defn mymap [fun coll]
+  (if (empty? coll)
+    (list)
+    (cons (fun (first coll)) (mymap fun (rest coll)))))
+
+(defn myfilter [fun coll]
+  (if (empty? coll)
+    (list)
+    (if (fun (first coll))
+      (cons (first coll) (myfilter fun (rest coll)))
+      (myfilter fun (rest coll)))))
+
+
+(defn myevery? [pred coll]
+  (if (empty? coll)
+    true
+    (if (pred (first coll))
+      (myevery? pred (rest coll))
+      false)))
+
+(defn myany? [pred coll]
+  (if (empty? coll)
+    false
+    (if (pred (first coll))
+      true
+      (myevery? pred (rest coll)))))
+
+(defn mypartition [n coll]
+  (list
+   (if (empty? coll)
+     (list)
+     (if (> n 0)
+       (cons (first coll) (mypartition (dec n) (rest coll)))
+       (mypartition n (rest coll))))))
