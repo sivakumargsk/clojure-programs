@@ -227,10 +227,112 @@
       true
       (myany? pred (rest coll)))))
 
-(defn mypartition [n coll]
-  (list
-   (if (empty? coll)
-     (list)
-     (if (> n 0)
-       (cons (first coll) (mypartition (dec n) (rest coll)))
-       (mypartition n (rest coll))))))
+(defn mypartition [fun coll]
+  (list (filter fun coll) (remove fun coll)))
+
+(defn mypartition1 [fun coll]
+  (list (myfilter fun coll) (myfilter (complement fun) coll)))
+
+
+(defn mygroup [fun coll]
+  (let [cseq (seq coll)
+        f    (first cseq)
+        c    (mypartition #(= (fun f) (fun %)) cseq)
+        cf   (first c)
+        cs   (second c)]
+    (if (empty? cs)
+      (conj `() cf)
+      (conj (mygroup fun cs) cf))))
+
+;;clojure-programs.core> (mygroup type [1 1 "siva" 1 2 2 2 "sai" 3 3 3 4 4 4 ])
+;;((1 1 1 2 2 2 3 3 3 4 4 4) ("siva" "sai"))
+
+;;clojure-programs.core> (mygroup identity [1 1 1 2 2 2 3 3 3 4 4 4 ])
+;;((1 1 1) (2 2 2) (3 3 3) (4 4 4))
+
+(defn mycompress [coll]
+  (let [c (mygroup identity coll)]
+    (loop [xc c
+           ans []]
+      (if (empty? xc)
+        ans
+        (recur (rest xc) (conj ans (list (first (first xc)) (count (first xc)))))))))
+
+;;clojure-programs.core> (mycompress [1 2 1 2  4 3 6 25 1  4 5])
+;;[(1 3) (2 2) (4 2) (3 1) (6 1) (25 1) (5 1)]
+
+(defn extand [rs coll]
+  (if (empty? coll)
+    rs
+    (let [t (second coll)
+          n (first  coll)]
+      (loop [ans rs
+             c 0]
+        (if (= c t)
+          ans
+          (recur (conj ans n) (inc c)))))))
+
+(defn uncompress [coll]
+  (loop [c coll
+         ans []]
+    (if (empty? c)
+      ans
+      (recur (rest c) (flat ans (first c))))))
+
+;;clojure-programs.core> (uncompress [[1 3] [2 3] [4 5]])
+;;[1 1 1 2 2 2 4 4 4 4 4]
+
+(defn duplicate [coll]
+  (if (empty? coll)
+    (list)
+    (cons (first coll) (cons (first coll) (duplicate (rest coll)) ) )))
+
+;;clojure-programs.core> (duplicate [1 2 3 4])
+;;(1 1 2 2 3 3 4 4)
+
+(defn kth-element [k coll]
+  (if (= k 1)
+    (first coll)
+    (kth-element (dec k) (rest coll))))
+
+;;clojure-programs.core> (kth-element 2 [1 2 3 4 5 6])
+;;3
+
+(defn drop-kth-element [k coll]
+  (if (empty? coll)
+    (list)
+    (if (= k 1)
+      (drop-kth-element (dec k) (rest coll))
+      (cons (first coll) (drop-kth-element (dec k) (rest coll))))))
+
+;;clojure-programs.core> (drop-kth-element 2 [1 2 3 4 5 6])
+;;(1 3 4 5 6)
+
+(defn dropevery-kth-element [k coll]
+  (loop [n k
+         c coll
+         ans []]
+    (if (empty? c)
+      ans
+      (if (= n 1)
+        (recur k (rest c) ans)
+        (recur (dec k) (rest c) (conj ans (first c)))))))
+
+;;clojure-programs.core> (dropevery-kth-element 2 [1 2 3 4 5 6])
+;;[1 3 5]
+
+(defn firstpart [k coll]
+  (if (< k 1)
+    (list)
+    (cons (first coll) (firstpart (dec k) (rest coll)))))
+
+(defn secondpart [k coll]
+  (if (= k 1)
+    (rest coll)
+    (secondpart (dec k) (rest coll))))
+
+(defn mysplit-at [k coll]
+  (list (firstpart k coll) (secondpart k coll)))
+
+;;clojure-programs.core> (mysplit-at 2 [1 2 3 4 5 6 7 8])
+;;((1 2) (3 4 5 6 7 8))
