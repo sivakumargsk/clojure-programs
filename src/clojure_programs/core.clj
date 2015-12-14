@@ -261,7 +261,7 @@
 ;;clojure-programs.core> (mycompress [1 2 1 2  4 3 6 25 1  4 5])
 ;;[(1 3) (2 2) (4 2) (3 1) (6 1) (25 1) (5 1)]
 
-(defn extand [rs coll]
+(defn expand-join [rs coll]
   (if (empty? coll)
     rs
     (let [t (second coll)
@@ -277,7 +277,7 @@
          ans []]
     (if (empty? c)
       ans
-      (recur (rest c) (flat ans (first c))))))
+      (recur (rest c) (expand-join ans (first c))))))
 
 ;;clojure-programs.core> (uncompress [[1 3] [2 3] [4 5]])
 ;;[1 1 1 2 2 2 4 4 4 4 4]
@@ -336,3 +336,43 @@
 
 ;;clojure-programs.core> (mysplit-at 2 [1 2 3 4 5 6 7 8])
 ;;((1 2) (3 4 5 6 7 8))
+
+(defn last-element [coll]
+  (let [c (seq coll)]
+    (if (empty? (rest c))
+      (first c)
+      (last-element (rest c)))))
+
+;;clojure-programs.core> (last-element [1 2 5 6 9 2 1 4 ])
+;;4
+
+(defn penultimate [coll]
+  (let [c (seq coll)]
+    (if (= 2 (count c))
+      (first c)
+      (penultimate (rest c)))))
+
+;;clojure-programs.core> (penultimate [5 64 2 8 9 4 ])
+;;9
+
+(defn myreverse [coll]
+  (let [c (seq coll)]
+    (if c
+      (conj (myreverse (rest c)) (first c))
+      [])))
+
+;;clojure-programs.core> (myreverse [5 64 2 8 9 4 ])
+;;[4 9 8 2 64 5]
+
+(defn mycompare [optr x y]
+  (if (optr x y)
+    x
+    y))
+
+(defn compare-list [ coll1 coll2]
+  (if (< (count coll1) (count coll2))
+    coll1
+    coll2))
+
+(defn sort-list-list [ coll]
+  (sort compare-list coll ))
