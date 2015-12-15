@@ -272,12 +272,15 @@
           ans
           (recur (conj ans n) (inc c)))))))
 
+(defn expand-join1 [acc coll]
+  (reduce (fn [x y] (conj x y)) acc (repeat (second coll) (first coll))))
+
 (defn uncompress [coll]
   (loop [c coll
          ans []]
     (if (empty? c)
       ans
-      (recur (rest c) (expand-join ans (first c))))))
+      (recur (rest c) (expand-join1 ans (first c))))))
 
 ;;clojure-programs.core> (uncompress [[1 3] [2 3] [4 5]])
 ;;[1 1 1 2 2 2 4 4 4 4 4]
@@ -372,3 +375,6 @@
 
 (defn sort-list-list [ coll]
   (sort compare-list coll))
+
+;;clojure-programs.core> (sort-list-list [[1 2] [5] [9 4 3] [2] [2 56 8 95 3]])
+;;([5] [2] [1 2] [9 4 3] [2 56 8 95 3])
