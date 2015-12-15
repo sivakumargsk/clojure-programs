@@ -364,15 +364,17 @@
 ;;clojure-programs.core> (myreverse [5 64 2 8 9 4 ])
 ;;[4 9 8 2 64 5]
 
-(defn mycompare [optr x y]
-  (if (optr x y)
-    x
-    y))
+(defn mycompare [ x y]
+  (< x y))
 
 (defn compare-list [ coll1 coll2]
-  (if (< (count coll1) (count coll2))
-    coll1
-    coll2))
+  (< (count coll1) (count coll2)))
 
 (defn sort-list-list [ coll]
-  (sort compare-list coll ))
+  (sort compare-list coll))
+
+(defn add [a b]
+  (+ a b))
+
+(defn add-more [coll]
+  (reduce add coll))
