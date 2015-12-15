@@ -372,9 +372,3 @@
 
 (defn sort-list-list [ coll]
   (sort compare-list coll))
-
-(defn add [a b]
-  (+ a b))
-
-(defn add-more [coll]
-  (reduce add coll))
