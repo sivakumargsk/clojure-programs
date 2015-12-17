@@ -233,6 +233,22 @@
 (defn mypartition1 [fun coll]
   (list (myfilter fun coll) (myfilter (complement fun) coll)))
 
+(defn mygroup1 [coll]
+  (let [cseq (seq coll)
+        f    (first cseq)
+        c    (mypartition #(= f %) cseq)
+        cf   (first c)
+        cs   (second c)]
+    (if (empty? cs)
+      (conj `() cf)
+      (conj (mygroup1 cs) cf))))
+
+;;clojure-programs.core>  (mygroup1  [1 1 "siva" 1 2 2 2 "sai" 3 3 3 4 4 4 ])
+;;((1 1 1) ("siva") (2 2 2) ("sai") (3 3 3) (4 4 4))
+
+;;clojure-programs.core>  (mygroup1 [1 1 1 2 1  2 2 3 3 1 3 4 4 2 4 ])
+;;((1 1 1 1 1) (2 2 2 2) (3 3 3) (4 4 4))
+
 
 (defn mygroup [fun coll]
   (let [cseq (seq coll)
@@ -256,21 +272,14 @@
            ans []]
       (if (empty? xc)
         ans
-        (recur (rest xc) (conj ans (list (first (first xc)) (count (first xc)))))))))
+        (let [f (first xc)]
+          (recur (rest xc) (conj ans (list (first f) (count f)))))))))
+
+(defn mycompress1 [coll]
+  (map #(list (first %) (count %))) (mygroup1 coll) )
 
 ;;clojure-programs.core> (mycompress [1 2 1 2  4 3 6 25 1  4 5])
 ;;[(1 3) (2 2) (4 2) (3 1) (6 1) (25 1) (5 1)]
-
-(defn expand-join [rs coll]
-  (if (empty? coll)
-    rs
-    (let [t (second coll)
-          n (first  coll)]
-      (loop [ans rs
-             c 0]
-        (if (= c t)
-          ans
-          (recur (conj ans n) (inc c)))))))
 
 (defn expand-join1 [acc coll]
   (reduce (fn [x y] (conj x y)) acc (repeat (second coll) (first coll))))
@@ -282,6 +291,9 @@
       ans
       (recur (rest c) (expand-join1 ans (first c))))))
 
+(defn uncompress1 [coll]
+  (map #(repeat (second %) (first %)) coll))
+
 ;;clojure-programs.core> (uncompress [[1 3] [2 3] [4 5]])
 ;;[1 1 1 2 2 2 4 4 4 4 4]
 
@@ -289,6 +301,9 @@
   (if (empty? coll)
     (list)
     (cons (first coll) (cons (first coll) (duplicate (rest coll)) ) )))
+
+(defn duplicate1 [coll]
+  (mapcat #(list % %) coll))
 
 ;;clojure-programs.core> (duplicate [1 2 3 4])
 ;;(1 1 2 2 3 3 4 4)
@@ -337,6 +352,10 @@
 (defn mysplit-at [k coll]
   (list (firstpart k coll) (secondpart k coll)))
 
+(defn mysplit-at1 [k coll]
+  `((take k coll) (drop k coll)))
+
+
 ;;clojure-programs.core> (mysplit-at 2 [1 2 3 4 5 6 7 8])
 ;;((1 2) (3 4 5 6 7 8))
 
@@ -351,7 +370,7 @@
 
 (defn penultimate [coll]
   (let [c (seq coll)]
-    (if (= 2 (count c))
+    (if (= nil (next(next c)))
       (first c)
       (penultimate (rest c)))))
 
@@ -378,3 +397,31 @@
 
 ;;clojure-programs.core> (sort-list-list [[1 2] [5] [9 4 3] [2] [2 56 8 95 3]])
 ;;([5] [2] [1 2] [9 4 3] [2 56 8 95 3])
+
+
+(defn myfrequency [word multi_string]
+  (let [s (cstr/split multi_string #" ")]
+    (count (filter #(= word %) s))))
+
+;;clojure-programs.core> (myfrequency "name" "hi friends my name siva \nmy name is kumar \nmy name is raj \n and finally i am lokesh")
+;;=>3
+
+
+;;This function is for how many times the given word is repeated in given multi_line string
+;;with respect to line numbers.
+
+(defn line-no-count [n coll]
+  (let [s (seq coll)]
+    (if s
+      (if (= (first s) 0)
+        (line-no-count (inc n) (rest coll))
+        (cons (list n (first coll)) (line-no-count (inc n) (rest coll))))
+      (list))))
+
+(defn myfrequency1 [word multi_string]
+  (let [s (cstr/split-lines multi_string)
+        lc (map #(myfrequency word %) s)]
+    (line-no-count 1 lc)))
+
+;;clojure-programs.core> (myfrequency1 "name" "hi friends my name siva \nmy name is kumar \nmy name is raj \n and finally i am lokesh")
+;;((1 1) (2 1) (3 1))
