@@ -410,18 +410,19 @@
 ;;This function is for how many times the given word is repeated in given multi_line string
 ;;with respect to line numbers.
 
-(defn line-no-count [n coll]
+(defn idx-to-element [staridx coll]
+  "this function returns a list of list containing idxNo and element where elements are greater than Zero"
   (let [s (seq coll)]
     (if s
       (if (= (first s) 0)
-        (line-no-count (inc n) (rest coll))
-        (cons (list n (first coll)) (line-no-count (inc n) (rest coll))))
+        (idx-to-element (inc staridx) (rest coll))
+        (cons (list staridx (first coll)) (idx-to-element (inc staridx) (rest coll))))
       (list))))
 
 (defn myfrequency1 [word multi_string]
   (let [s (cstr/split-lines multi_string)
         lc (map #(myfrequency word %) s)]
-    (line-no-count 1 lc)))
+    (idx-to-element 1 lc)))
 
-;;clojure-programs.core> (myfrequency1 "name" "hi friends my name siva \nmy name is kumar \nmy name is raj \n and finally i am lokesh")
+;;clojure-programs.core>(myfrequency1 "name" "hi friends my name siva \nmy name is kumar \nmy name is raj \n and finally i am lokesh")
 ;;((1 1) (2 1) (3 1))
