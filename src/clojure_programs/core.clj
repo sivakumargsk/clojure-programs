@@ -432,7 +432,6 @@
 
 
 (defn myfrequencies1 [xcoll]
-  ;;"i am adding map-val-coll-type argu to improve more flexiblity to the function"
   (loop [coll xcoll
          newmap {}]
     (if (empty? coll)
