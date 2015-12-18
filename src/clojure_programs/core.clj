@@ -426,3 +426,6 @@
 
 ;;clojure-programs.core>(myfrequency1 "name" "hi friends my name siva \nmy name is kumar \nmy name is raj \n and finally i am lokesh")
 ;;((1 1) (2 1) (3 1))
+
+(defn myfrequencies [coll]
+  (map #(list (first %) (count %)) (mygroup1 coll)))
