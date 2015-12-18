@@ -429,3 +429,16 @@
 
 (defn myfrequencies [coll]
   (map #(list (first %) (count %)) (mygroup1 coll)))
+
+
+(defn myfrequencies1 [xcoll]
+  ;;"i am adding map-val-coll-type argu to improve more flexiblity to the function"
+  (loop [coll xcoll
+         newmap {}]
+    (if (empty? coll)
+      newmap
+      (recur (next coll) (let [mapkey (first coll)
+                               mapval (newmap mapkey)]
+                           (if (= :default (newmap mapkey :default))
+                             (assoc newmap mapkey 1)
+                             (assoc newmap mapkey (inc mapval))))))))
