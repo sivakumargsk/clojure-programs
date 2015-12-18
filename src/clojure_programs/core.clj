@@ -430,14 +430,10 @@
 (defn myfrequencies [coll]
   (map #(list (first %) (count %)) (mygroup1 coll)))
 
-
-(defn myfrequencies1 [xcoll]
-  (loop [coll xcoll
-         newmap {}]
-    (if (empty? coll)
-      newmap
-      (recur (next coll) (let [mapkey (first coll)
-                               mapval (newmap mapkey)]
-                           (if (= :default (newmap mapkey :default))
-                             (assoc newmap mapkey 1)
-                             (assoc newmap mapkey (inc mapval))))))))
+(defn myfrequencies2 [coll]
+  (reduce (fn [x y]
+            (if (= :default (x y :default))
+              (assoc x y 1)
+              (assoc x y (inc (x y)))))
+          {}
+          coll))
