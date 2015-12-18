@@ -430,7 +430,7 @@
 (defn myfrequencies [coll]
   (map #(list (first %) (count %)) (mygroup1 coll)))
 
-(defn myfrequencies2 [coll]
+(defn myfrequencies1 [coll]
   (reduce (fn [x y]
             (if (= :default (x y :default))
               (assoc x y 1)
