@@ -443,13 +443,13 @@
 ;;closure concept
 
 (defn fun-type [ele]
-  (let [t (type ele)]
-    (cond
-      (= t java.lang.Long) +
-      (= t java.lang.String) str
-      (= t java.lang.Character) str
-      :else concat)))
+  (let [t (str (type ele))]
+    (case t
+      "class java.lang.Long" +
+      "class java.lang.Character" str
+      "class java.lang.String" str
+      concat)))
 
-(defn reduce-by-type [x y & more]
+(defn reduce-by-type [x & more]
   (let [f (fun-type x)]
-    (reduce f (f x y) more)))
+    (reduce f x more)))
