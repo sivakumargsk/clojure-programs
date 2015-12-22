@@ -430,6 +430,8 @@
 (defn myfrequencies [coll]
   (map #(list (first %) (count %)) (mygroup1 coll)))
 
+
+;;Frequencies function in single pass
 (defn myfrequencies1 [coll]
   (reduce (fn [x y]
             (if (= :default (x y :default))
@@ -437,3 +439,17 @@
               (assoc x y (inc (x y)))))
           {}
           coll))
+
+;;closure concept
+
+(defn fun-type [ele]
+  (let [t (type ele)]
+    (cond
+      (= t java.lang.Long) +
+      (= t java.lang.String) str
+      (= t java.lang.Character) str
+      :else concat)))
+
+(defn reduce-by-type [x y & more]
+  (let [f (fun-type x)]
+    (reduce f (f x y) more)))
