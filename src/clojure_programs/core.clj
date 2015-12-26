@@ -453,3 +453,36 @@
 (defn reduce-by-type [x & more]
   (let [f (fun-type x)]
     (reduce f x more)))
+
+
+;;defining an atom to an variable
+(def my-atom (atom nil))
+
+;;updating an variable value
+(defn update-my-atom [new-val]
+  (reset! my-atom new-val))
+
+;; clojure-programs.core> @my-atom
+;; nil
+;; clojure-programs.core> (update-my-atom 10)
+;; 10
+;; clojure-programs.core> @my-atom
+;; 10
+;; clojure-programs.core> (update-my-atom 20)
+;; 20
+;; clojure-programs.core> @my-atom
+;; 20
+
+;;defining an atom to an variable
+(def i (atom 0))
+
+;;updating an variable value
+(defn i-next []
+  (swap! i inc))
+
+;; clojure-programs.core> @i
+;; 0
+;; clojure-programs.core> (i-next)
+;; 1
+;; clojure-programs.core> (i-next)
+;; 2
