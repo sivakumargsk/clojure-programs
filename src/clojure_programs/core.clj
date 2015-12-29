@@ -1,5 +1,39 @@
 (ns clojure-programs.core
   (:require [clojure.string :as cstr]))
+;;============================================================================================
+;;atom
+;;defining an atom to an variable
+(def my-atom (atom nil))
+
+;;updating an variable value
+(defn update-my-atom [new-val]
+  (reset! my-atom new-val))
+
+;; clojure-programs.core> @my-atom
+;; nil
+;; clojure-programs.core> (update-my-atom 10)
+;; 10
+;; clojure-programs.core> @my-atom
+;; 10
+;; clojure-programs.core> (update-my-atom 20)
+;; 20
+;; clojure-programs.core> @my-atom
+;; 20
+
+;;defining an atom to an variable
+(def i (atom 0))
+
+;;updating an variable value
+(defn i-next []
+  (swap! i inc))
+
+;; clojure-programs.core> @i
+;; 0
+;; clojure-programs.core> (i-next)
+;; 1
+;; clojure-programs.core> (i-next)
+;; 2
+
 
 ;;=============================================================================================
 (defn factorial [x]
@@ -441,7 +475,6 @@
           coll))
 
 ;;closure concept
-
 (defn fun-type [ele]
   (let [t (str (type ele))]
     (case t
@@ -454,35 +487,25 @@
   (let [f (fun-type x)]
     (reduce f x more)))
 
+(defn myfrequency [word multi_string]
+  (let [s (cstr/split multi_string #" ")]
+    (count (filter #(= word %) s))))
 
-;;defining an atom to an variable
-(def my-atom (atom nil))
+;;frequencies using closure concept
 
-;;updating an variable value
-(defn update-my-atom [new-val]
-  (reset! my-atom new-val))
+(def my-string "hi world hello world the world is so beautiful")
 
-;; clojure-programs.core> @my-atom
-;; nil
-;; clojure-programs.core> (update-my-atom 10)
-;; 10
-;; clojure-programs.core> @my-atom
-;; 10
-;; clojure-programs.core> (update-my-atom 20)
-;; 20
-;; clojure-programs.core> @my-atom
-;; 20
+(def str-coll (cstr/split my-string  #" "))
 
-;;defining an atom to an variable
-(def i (atom 0))
+(defn freq [coll]
+  (fn [word]
+    (let [c (count(filter #(= word %) coll))]
+      (vector word c))))
 
-;;updating an variable value
-(defn i-next []
-  (swap! i inc))
+(defn freqs [coll]
+  (let [count-of (freq coll)]
+    (reduce #(conj %1 (count-of %2))
+            {}
+            coll)))
 
-;; clojure-programs.core> @i
-;; 0
-;; clojure-programs.core> (i-next)
-;; 1
-;; clojure-programs.core> (i-next)
-;; 2
+(freqs str-coll)
